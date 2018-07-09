@@ -1,0 +1,29 @@
+{
+  "name": "basic_gulp_bootstrap4",
+  "version": "1.0.0",
+  "description": "A basic gulpfile bootstrap 4 skeleton for project development",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bootstrap": "^4.1.1",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "jquery": "^3.3.1",
+    "path": "^0.12.7",
+    "popper.js": "^1.14.3",
+    "run-sequence": "^2.2.1"
+  },
+  "repository" :
+  { "type" : "git"
+  , "url" : "https://github.com/dwhweb/basic_gulp_bootstrap4.git"
+  }
+}
