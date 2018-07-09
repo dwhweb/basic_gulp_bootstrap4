@@ -1,4 +1,4 @@
-#Basic Gulpfile bootstrap 4 skeleton
+# Basic Gulpfile bootstrap 4 skeleton
 
 The gulpfile in this repository will perform the following tasks –
 
@@ -51,7 +51,7 @@ Sass styles should be written in a Sass stylesheet in the ```scss/``` directory 
 
 Any variables or styles defined above that line override the default bootstrap settings. 
 
-##Licensing
+## Licensing
 
 &copy; 2018 dwhweb
 MIT licensing applies -- feel free to distribute, modify etc
