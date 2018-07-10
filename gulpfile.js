@@ -11,6 +11,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var runSequence = require('run-sequence');
+var watch = require('gulp-watch');
 
 //Source and destination directories
 var source = {
@@ -38,17 +39,30 @@ var globs = {
 	dist : '**/*'
 };
 
-//Change handler function, notifies of change and handles deletions
-function changeHandler(event, source, destination) {
-	console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+//Change handler function, copies files on add or change, or deletes
+function changeHandler(file, source, globs, destination) {
+	notify(file);
 
-	if (event.type === 'deleted') {
+	if(file.event === 'add' || file.event === "change") {
+		copy(source + globs, destination);
+	} else if (file.event === 'unlink') {
 		// Simulating the {base: 'src'} used with gulp.src in the scripts task
-		var filePathFromSrc = path.relative(path.resolve(source), event.path);
+		var filePathFromSrc = path.relative(path.resolve(source), file.path);
 		//Concatenating the "build" absolute path used by gulp.dest in the scripts task
 		var destFilePath = path.resolve(destination, filePathFromSrc);
 		del(destFilePath);
 	}
+}
+
+//Notifies via console of change event
+function notify(file) {
+	var events = { 
+		"add" : "added",
+		"change" : "changed",
+		"unlink" : "deleted"
+	};
+
+	console.log('File ' + file.path + ' was ' + events[file.event] + ', running tasks...');
 }
 
 //Copy function 
@@ -86,6 +100,7 @@ gulp.task('sass', function () {
                 .pipe(gulp.dest(dest.sass));
 });
 
+//Javascript compile task
 gulp.task('javascript', function () {
 	return gulp
 		.src(source.javascript + globs.javascript)
@@ -98,28 +113,26 @@ gulp.task('javascript', function () {
 //Watch directories
 gulp.task('watch', function() {
 	//HTML watcher
-	gulp.watch(source.html + globs.html, ['html'])
-	.on('change', function(event) {
-		changeHandler(event, source.html, dest.html);
+	watch(source.html + globs.html, function(file) {
+		changeHandler(file, source.html, globs.html, dest.html);
 	});
 
 	//Sass watcher
-	gulp.watch(source.sass + globs.sass, ['sass'])
-        .on('change', function(event) {
-                console.log('File ' + event.path + ' was ' + event.type + ', running sass tasks...');
-        });
+	watch(source.sass + globs.sass, function(file) {
+		notify(file);
+		gulp.start("sass");
+	});
 
 	//Images watcher
-	gulp.watch(source.images + globs.images, ['images'])
-        .on('change', function(event) {
-		changeHandler(event, source.images, dest.images);
-        });
+	watch(source.images + globs.images, function(file) {
+		changeHandler(file, source.images, globs.images, dest.images);
+	});
 
 	//Javascript watcher
-        gulp.watch(source.javascript + globs.javascript, ['javascript'])
-        .on('change', function(event) {
-                console.log('File ' + event.path + ' was ' + event.type + ', running javascript tasks...');
-        });
+	watch(source.javascript + globs.javascript, function(file) {
+		notify(file);
+		gulp.start("javascript");
+	});
 });
 
 //Clean task, cleans out dist directory

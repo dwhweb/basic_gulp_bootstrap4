@@ -16,14 +16,16 @@ When dependencies are installed, the directory layout is set out as follows --
 	│   └── bootstrap
 	│       ├── scss
 	│       │   ├── bootstrap.scss
-	│       │   └── <...Other files and directories>
-	│       └── <...Other files and directories>
+	│       │   └── ...Other files and directories
+	│       └── ...Other files and directories
 	├── package.json
 	├── README.md
 	└── src
 	    ├── images
 	    ├── js
 	    └── scss
+
+Feel free to delete any .keep files you find in the ```src/``` and ```dist/``` directories, these are only included so git retains the directory structure.
 
 The Gulpfile contains tasks pertaining to HTML, Sass, images and Javascript but you probably don't want to use it that way. The tasks you are probably interested in are
 
@@ -40,7 +42,7 @@ You'll need npm (Node package manager) and Gulp. This is a v3.x gulpfile which i
 
 Clone the repository, then run ```npm install``` in the repository directory to install dependencies, then you should be ready to go.
 
-##Usage
+## Usage
 ```gulp <task>``` will run the task you specify - you probably want to invoke it with no arguments the first time so that the entire ```dist/``` directory is built from the ```src/``` directory. Gulp will then watch for changes.
 
 Make any changes you want to HTML files in ```src/``` or any images, javascript or sass files in the appropriate directories, gulp will automatically create, delete, update, compile etc as appropriate.
@@ -54,4 +56,5 @@ Any variables or styles defined above that line override the default bootstrap s
 ## Licensing
 
 &copy; 2018 dwhweb
+
 MIT licensing applies -- feel free to distribute, modify etc
